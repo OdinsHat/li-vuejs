@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
     <link 
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
         rel="stylesheet" 
@@ -14,17 +19,32 @@
 </head>
 <body>
     <div id="app">
-        <h1>{{ greeting }}</h1>
+        <div class="container">
+            <form action="" class="mt-5" v-if="!submitted">
+                <div class="form-group">
+                    <label for="" class="email">Email</label>
+                    <input type="email" class="form-control form-control-lg" v-model="email" />
+                </div>
+                <button class="btn btn-primary btn-lg" type="submit" @click.prevent="processForm">Submit</button>
+            </form>
+            <h2 v-else v-cloak class="mt-5">Thanks for signing up</h2>
+        </div>
     </div>
     
 
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
     <script>
-        new Vue({
+        var vm = new Vue({
             el: '#app',
             data: {
-                greeting: 'Hello from Vue!'
+                email: 'doug@mypolicy.co.uk',
+                submitted: false
+            },
+            methods: {
+                processForm: function (event) {
+                    this.submitted = true;
+                }
             }
         });
     </script>

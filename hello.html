@@ -32,24 +32,31 @@
         // Key: FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU
         // URL: https://api.nasa.gov/planetary/apod?api_key=FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU
 
-        var apiKey = 'FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU';
-        var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+        
 
         var vm = new Vue({
             el: '#app',
             data: {
                 imgSrc: '',
-                submitted: ''
+                imgTitle: ''
+            },
+            created: function() {
+                this.fetchApod();
+            },
+            methods: {
+                fetchApod: function() {
+                    var apiKey = 'FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU';
+                    var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+                    axios.get(url)
+                        .then(function(res){
+                            vm.imgSrc = res.data.url;
+                            vm.imgTitle = res.data.title;
+                        });
+                }
             }
         });
 
-        axios.get(url)
-            .then(function(res){
-                console.clear();
-                console.log(res);
-                vm.imgSrc = res.data.url;
-                vm.imgTitle = res.data.title;
-            })
+        
     </script>
 </body>
 

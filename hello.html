@@ -53,7 +53,7 @@
                     <th>Remove</th>
                 </thead>
                 <tbody v-cloak>
-                    <tr v-for="(a, index) in asteroids">
+                    <tr v-for="(a, index) in asteroids" :key="a.neo_reference_id" :style="getRowStyle(a)" :class="getRowClass(a)">
                         <td>{{ index + 1 }}</td>
                         <td>{{ a.name }}</td>
                         <td>{{ getCloseApproachDate(a) }}</td>
@@ -153,6 +153,18 @@
                 prevPage: function(url) {
                     this.url = url;
                     this.fetchAsteroids(false)
+                },
+                getRowStyle: function(a) {
+                    if (a.close_approach_data.length == 0) {
+                        return {
+                            border: 'solid 3px red'
+                        };
+                    }
+                },
+                getRowClass: function(a) {
+                    if (a.close_approach_data.length == 0) {
+                        return 'table-danger';
+                    }
                 }
             }
         });

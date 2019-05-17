@@ -20,7 +20,31 @@
 <body>
     <div id="app">
         <div class="container">
-            <img :src="imgSrc" :title="imgTitle">
+            <div class="card mt-5">
+                <h2 class="card-header">Near Earth Objects</h2>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light">
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Close Approach Date</th>
+                    <th>Miss Distance</th>
+                </thead>
+                <tbody v-cloak>
+                    <tr v-for="(a, index) in asteroids">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ a.name }}</td>
+                        <td>{{ getCloseApproachDate(a) }}</td>
+                        <td>
+                            <ul v-if="a.close_approach_data.length">
+                                <li v-for="(val, key) in a.close_approach_data[0].miss_distance">
+                                {{ key }}: {{ val }}
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         </div>
     </div>
     
@@ -37,21 +61,25 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                imgSrc: '',
-                imgTitle: ''
+                asteroids: []
             },
             created: function() {
-                this.fetchApod();
+                this.fetchAsteroids();
             },
             methods: {
-                fetchApod: function() {
+                fetchAsteroids: function() {
                     var apiKey = 'FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU';
-                    var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+                    var url = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKey;
                     axios.get(url)
                         .then(function(res){
-                            vm.imgSrc = res.data.url;
-                            vm.imgTitle = res.data.title;
+                            vm.asteroids = res.data.near_earth_objects.slice(0, 20);
                         });
+                },
+                getCloseApproachDate(a) {
+                    if (a.close_approach_data.length > 0) {
+                       return a.close_approach_data[0].close_approach_date;
+                    }
+                    return 'Unknown';
                 }
             }
         });

@@ -28,6 +28,7 @@
                     <th>Name</th>
                     <th>Close Approach Date</th>
                     <th>Miss Distance</th>
+                    <th>Remove</th>
                 </thead>
                 <tbody v-cloak>
                     <tr v-for="(a, index) in asteroids">
@@ -41,9 +42,16 @@
                                 </li>
                             </ul>
                         </td>
+                        <td><button class="btn btn-warning" @click="remove(index)">Remove</button></td>
                     </tr>
                 </tbody>
             </table>
+            <div class="col card-footer">
+                <div class="text-center">You're on page {{ pageNumber }}</div>
+                <span class="float-left"><button class="btn btn-primary" @click="prevPage(prevLink)">Prev</button></span>
+                
+                <span class="float-right"><button class="btn btn-primary" @click="nextPage(nextLink)">Next</button></span>
+            </div>
         </div>
         </div>
     </div>
@@ -61,25 +69,50 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                asteroids: []
+                apiKey: 'FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU',
+                url: 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=',
+                asteroids: [],
+                nextLink: '',
+                prevLink: '',
+                totalElements: 0,
+                pages: 0,
+                pageNumber: 0
             },
             created: function() {
                 this.fetchAsteroids();
             },
             methods: {
                 fetchAsteroids: function() {
-                    var apiKey = 'FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU';
-                    var url = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKey;
-                    axios.get(url)
-                        .then(function(res){
-                            vm.asteroids = res.data.near_earth_objects.slice(0, 20);
+                    if (this.url.length < 53) {
+                        this.url = this.url + this.apiKey;
+                    }
+                    axios.get(this.url)
+                        .then(function(res) {
+                            // this would be different in this scope
+                            vm.asteroids = res.data.near_earth_objects;//.slice(0, 20);
+                            vm.nextLink = res.data.links.next;
+                            vm.prevLink = res.data.links.prev;
+                            vm.totalElements = res.data.page.total_elements;
+                            vm.pages = res.data.page.total_pages;
+                            vm.pageNumber = res.data.page.number + 1;
                         });
                 },
-                getCloseApproachDate(a) {
+                getCloseApproachDate: function(a) {
                     if (a.close_approach_data.length > 0) {
                        return a.close_approach_data[0].close_approach_date;
                     }
                     return 'Unknown';
+                },
+                remove: function(index) {
+                    this.asteroids.splice(index, 1);
+                },
+                nextPage: function(url) {
+                    this.url = url;
+                    this.fetchAsteroids(false)
+                },
+                prevPage: function(url) {
+                    this.url = url;
+                    this.fetchAsteroids(false)
                 }
             }
         });

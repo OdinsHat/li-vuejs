@@ -16,19 +16,33 @@
         crossorigin="anonymous"
     >
     <title>VueJS First Example</title>
+    <style>
+        .shooting-star-leave-to, .shooting-star-enter {
+            transform: translateX(150px) rotate(30deg);
+            opacity: 0;
+        }
+        .shooting-star-enter-active, .shooting-star-leave-active {
+            transition: all .5s ease;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
         <div class="container">
             <div class="card mt-5">
                 <h2 class="card-header">Near Earth Objects</h2>
-                <div class="m-3" v-cloak v-if="numAsteroids > 0">
-                        <span class="float-right">
-                            <button class="btn btn-primary" @click="prevPage(prevLink)">Prev</button>
-                            <button class="btn btn-primary" @click="nextPage(nextLink)">Next</button>
-                        </span>
-                    <p>Showing {{numAsteroids}} items</p>
-                    <p>{{closestObject}} has the shortest miss distance.</p>
+                <transition name="shooting-star">
+                    <div class="m-3" v-cloak v-if="numAsteroids > 0 && showSummary">
+                            <span class="float-right">
+                                <button class="btn btn-primary" @click="prevPage(prevLink)">Prev</button>
+                                <button class="btn btn-primary" @click="nextPage(nextLink)">Next</button>
+                            </span>
+                        <p>Showing {{numAsteroids}} items</p>
+                        <p>{{closestObject}} has the shortest miss distance.</p>
+                    </div>
+                </transition>
+                <div class="m-3">
+                    <p><a href="#" @click="showSummary = !showSummary">Show/Hide Summary</a></p>
                 </div>
             <table class="table table-bordered table-striped">
                 <thead class="thead-light">
@@ -84,7 +98,8 @@
                 prevLink: '',
                 totalElements: 0,
                 pages: 0,
-                pageNumber: 0
+                pageNumber: 0,
+                showSummary: true
             },
             created: function() {
                 this.fetchAsteroids();

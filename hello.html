@@ -22,6 +22,14 @@
         <div class="container">
             <div class="card mt-5">
                 <h2 class="card-header">Near Earth Objects</h2>
+                <div class="m-3" v-cloak v-if="numAsteroids > 0">
+                        <span class="float-right">
+                            <button class="btn btn-primary" @click="prevPage(prevLink)">Prev</button>
+                            <button class="btn btn-primary" @click="nextPage(nextLink)">Next</button>
+                        </span>
+                    <p>Showing {{numAsteroids}} items</p>
+                    <p>{{closestObject}} has the shortest miss distance.</p>
+                </div>
             <table class="table table-bordered table-striped">
                 <thead class="thead-light">
                     <th>No.</th>

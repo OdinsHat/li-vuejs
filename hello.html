@@ -20,7 +20,7 @@
 <body>
     <div id="app">
         <div class="container">
-            <img :src="imgSrc" :title="imgTitle">
+            <a-pod></a-pod>
         </div>
     </div>
     
@@ -32,13 +32,13 @@
         // Key: FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU
         // URL: https://api.nasa.gov/planetary/apod?api_key=FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU
 
-        
-
-        var vm = new Vue({
-            el: '#app',
-            data: {
-                imgSrc: '',
-                imgTitle: ''
+        Vue.component('a-pod', {
+            template: '<img :src="imgSrc" :title="imgTitle">',
+            data: function() {
+                return {
+                    imgSrc: '',
+                    imgTitle: ''
+                }
             },
             created: function() {
                 this.fetchApod();
@@ -54,6 +54,11 @@
                         });
                 }
             }
+        })
+        
+
+        var vm = new Vue({
+            el: '#app',
         });
 
         

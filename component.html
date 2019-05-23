@@ -21,6 +21,7 @@
         <div id="app" class="container">
             <div class="row">
                 <div class="col m-5">
+                    <another-component></another-component>
                     <my-component v-for="i in 1000"></my-component>
                 </div>
             </div>
@@ -30,12 +31,24 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
 
+            var anotherComponent = {
+                data: function() {
+                    return {
+                        msg: 'Hello from another compnent!'
+                    }
+                },
+                template: '<h1>{{msg}}</h1>'
+            };
+
             Vue.component('my-component', {
                 template: '<strong>A static element...</strong>'
             });
 
             var vm = new Vue({
-                el: '#app'
+                el: '#app',
+                components: {
+                    'another-component': anotherComponent
+                }
             });
 
         </script>

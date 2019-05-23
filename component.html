@@ -1,22 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link 
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
-        crossorigin="anonymous"
-    >
-</head>
-<body>
-    <div id="app">
-        <div class="container">
-
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <style>
+            [v-cloak] {
+                display: none;
+            }
+        </style>
+        <link 
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+            rel="stylesheet" 
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+            crossorigin="anonymous"
+        >
+        <title>VueJS First Example</title>
+    </head>
+    <body>
+        <div id="app" class="container">
+            <div class="row">
+                <div class="col m-5">
+                    <my-component v-for="i in 1000"></my-component>
+                </div>
+            </div>
         </div>
-    </div>
-</body>
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+
+            Vue.component('my-component', {
+                template: '<strong>A static element...</strong>'
+            });
+
+            var vm = new Vue({
+                el: '#app'
+            });
+
+        </script>
+    </body>
+
 </html>

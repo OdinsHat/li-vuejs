@@ -35,7 +35,7 @@
 
         Vue.component('a-pod', {
             template: '<div> \
-            <img :src="imgSrc" :title="imgTitle"> \
+            <img :src="imgSrc" :title="imgTitle" width="300" height="300"> \
             <p> {{ date || "today }}</p></div>',
             props: ['date'],
             data: function() {

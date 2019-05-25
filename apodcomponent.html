@@ -34,7 +34,9 @@
         // URL: https://api.nasa.gov/planetary/apod?api_key=FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU
 
         Vue.component('a-pod', {
-            template: '<img :src="imgSrc" :title="imgTitle">',
+            template: '<div> \
+            <img :src="imgSrc" :title="imgTitle"> \
+            <p> {{ date || "today }}</p></div>',
             props: ['date'],
             data: function() {
                 return {

@@ -20,8 +20,14 @@
 <body>
     <div id="app">
         <div class="container">
-            <a-pod></a-pod>
-            <a-pod date="2018-08-07"></a-pod>
+            <a-pod>
+                <h3 slot="title">This is the title slot</h3>
+                <p slot="caption">Here's todays astronomy pic of the day</p>
+            </a-pod>
+            <a-pod date="2018-08-07">
+                <h3 slot="title">#2</h3>
+                <p slot="caption" slot-scope="pic">Here's the picture from {{ pic.date }}</p>
+            </a-pod>
         </div>
     </div>
     
@@ -34,9 +40,11 @@
         // URL: https://api.nasa.gov/planetary/apod?api_key=FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU
 
         Vue.component('a-pod', {
-            template: '<div> \
+            template: '<div><slot name="title"><h3>Untitled</h3></slot> \
             <img :src="imgSrc" :title="imgTitle" width="300" height="300"> \
-            <p> {{ date || "today }}</p></div>',
+            <p> {{ date || "today" }}</p> \
+            <slot name="caption" :date="date"><p>Uknown date?</p></slot> \
+            </div>',
             props: ['date'],
             data: function() {
                 return {

@@ -20,6 +20,7 @@
 <body>
     <div id="app">
         <div class="container">
+            <a-pod></a-pod>
             <a-pod date="2018-08-07"></a-pod>
         </div>
     </div>
@@ -49,7 +50,7 @@
                     var apiKey = 'FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU';
                     var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
                     if (this.date) {
-                        url += '&date=' + date;
+                        url += '&date=' + this.date;
                     }
                     var self = this;
                     axios.get(url)

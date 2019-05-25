@@ -38,7 +38,7 @@
                 return {
                     imgSrc: '',
                     imgTitle: ''
-                }
+                };
             },
             created: function() {
                 this.fetchApod();
@@ -47,10 +47,11 @@
                 fetchApod: function() {
                     var apiKey = 'FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU';
                     var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+                    var self = this;
                     axios.get(url)
                         .then(function(res){
-                            vm.imgSrc = res.data.url;
-                            vm.imgTitle = res.data.title;
+                            self.imgSrc = res.data.url;
+                            self.imgTitle = res.data.title;
                         });
                 }
             }

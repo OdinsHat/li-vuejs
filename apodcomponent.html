@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <link 
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+        crossorigin="anonymous"
+    >
+    <title>VueJS First Example</title>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <a-pod></a-pod>
+        </div>
+    </div>
+    
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        // Key: FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU
+        // URL: https://api.nasa.gov/planetary/apod?api_key=FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU
+
+        Vue.component('a-pod', {
+            template: '<img :src="imgSrc" :title="imgTitle">',
+            data: function() {
+                return {
+                    imgSrc: '',
+                    imgTitle: ''
+                };
+            },
+            created: function() {
+                this.fetchApod();
+            },
+            methods: {
+                fetchApod: function() {
+                    var apiKey = 'FBcPMWa38uC9UsoJ87OepErFkX77tLQXXPPEezLU';
+                    var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+                    var self = this;
+                    axios.get(url)
+                        .then(function(res){
+                            self.imgSrc = res.data.url;
+                            self.imgTitle = res.data.title;
+                        });
+                }
+            }
+        })
+        
+
+        var vm = new Vue({
+            el: '#app',
+        });
+
+        
+    </script>
+</body>
+
+</html>
